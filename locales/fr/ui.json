@@ -21,7 +21,7 @@
     "partial": "Partiel",
     "learning_goals": "Objectifs d’apprentissage",
     "suggested_path": "Parcours suggéré",
-    "footer": "Systemic Tau Platform · v1.0 · Aligné avec systemictau, nested-recd et CCTP/SDDB",
+    "footer": "Systemic Tau Platform · v1.0 · MIT · Recherche & enseignement · Pas un dispositif médical ni un conseil d'investissement",
     "content_missing": "Contenu introuvable : `{path}`",
     "event": "événement",
     "domain": "domaine",
@@ -31,7 +31,15 @@
     "untitled": "Sans titre",
     "file_missing": "Fichier introuvable : {path}",
     "generated_sections": "Généré par STP · {n} sections",
-    "part_n": "Partie {i}. {title}"
+    "part_n": "Partie {i}. {title}",
+    "disclaimer_title": "Avertissement important",
+    "disclaimer_body": "Cette plateforme est un outil de <strong>recherche et d'enseignement</strong>. Ce n'est <strong>pas</strong> un dispositif médical, elle ne fournit <strong>pas</strong> de diagnostics cliniques, et ce n'est <strong>pas</strong> un conseil d'investissement ni une prévision opérationnelle. Les résultats exigent une validation scientifique indépendante.",
+    "privacy_title": "Données téléversées",
+    "privacy_body": "Les CSV sont traités <strong>dans la session en cours</strong> (mémoire du serveur). Ils ne sont <strong>pas</strong> stockés de façon persistante, les modèles ne sont <strong>pas</strong> réentraînés, et les données ne sont <strong>pas</strong> envoyées à des tiers par cette plateforme. N'envoyez pas de données personnelles ou PHI/PII.",
+    "cite_short": "Citez la plateforme (MIT) et l'article/jeu de données du domaine.",
+    "contact_line": "Contact : johel.padilla@upr.edu · Issues sur GitHub",
+    "about_legal": "À propos et légal",
+    "limits_note": "Limites publiques : ≤{rows} lignes · ≤{cols} colonnes · ≤{surr} nulls · CSV ≤{mb} Mo"
   },
   "nav": {
     "home": "Accueil",
@@ -61,7 +69,9 @@
     "lab": "Laboratoire →",
     "start_fundamentos": "Commencer par les Fondements →",
     "evidence_cctp": "Voir les preuves CCTP →",
-    "full_materials": "Voir le catalogue complet des matériels →"
+    "full_materials": "Voir le catalogue complet des matériels →",
+    "about": "À propos et légal",
+    "open_about": "À propos, légal et citations →"
   },
   "domains": {
     "cardiology": "Cardiologie",
@@ -317,7 +327,13 @@
     "mem_cap": "Mémoire : MI lag-1={mi:.4f}, cross-MI={cmi:.4f}",
     "tda_cap": "TDA ({backend}) : Δβ₀={db0:+.3f}, Δβ₁={db1:+.3f}",
     "bw_cap": "Breathing : W∈[{wmin}–{wmax}]",
-    "query_fail": "Impossible de charger le jeu de la requête : {err}"
+    "query_fail": "Impossible de charger le jeu de la requête : {err}",
+    "privacy_banner": "Confidentialité de l'upload : le CSV est lu en session et n'est pas enregistré sur le disque du service. N'envoyez pas de données cliniques identifiables ni de secrets.",
+    "csv_too_large": "CSV refusé : {n} lignes × {c} colonnes dépasse la limite publique ({max_r}×{max_c}). Réduisez le fichier ou utilisez le CLI local.",
+    "csv_mb_limit": "Fichier trop volumineux ({mb:.1f} Mo). Maximum public : {max_mb} Mo.",
+    "surr_capped": "Nulls plafonnés à {n} en mode public partagé.",
+    "tda_public_cap": "La TDA de démo publique utilise une fenêtre plus légère ; pour des analyses lourdes, utilisez le CLI local.",
+    "abuse_hint": "Mode public : surrogates et TDA sont plafonnés pour protéger le serveur partagé."
   },
   "ruta": {
     "page_title": "Parcours | STP",
@@ -728,5 +744,30 @@
     "social_polarization_demo": "Polarisation-like (opinions + interaction)",
     "education_cohort_demo": "Cohorte d’apprentissage (engagement · pairs · charge)",
     "sleep_fragmentation_demo": "Sommeil-like (HRV · activité · temp)"
+  },
+  "about": {
+    "page_title": "À propos et légal · STP",
+    "title": "À propos, légal et citations",
+    "subtitle": "Licences, confidentialité, avertissement, contact et citation",
+    "eyebrow": "Transparence",
+    "goal_1": "Connaître la portée juridique et éthique de la plateforme.",
+    "goal_2": "Citer correctement le logiciel, les articles et les jeux de données.",
+    "goal_3": "Savoir signaler un problème ou contribuer.",
+    "software": "Logiciel",
+    "software_body": "Licence **MIT**. Auteur : Johel Padilla-Villanueva (ORCID 0000-0002-5797-6931). Dépôt et issues : voir README / GitHub.",
+    "disclaimer_h": "Avertissement d'usage",
+    "disclaimer_body": "Ce n'est pas un dispositif médical ni un système de diagnostic. Ce n'est pas un conseil d'investissement ni un outil de trading. Ne remplace pas le jugement clinique, épidémiologique ou d'ingénierie. Usage éducatif et recherche méthodologique.",
+    "privacy_h": "Confidentialité et uploads",
+    "privacy_body": "Sur les déploiements Streamlit typiques, les fichiers téléversés restent en mémoire de session et ne sont pas écrits dans le catalogue de l'app. v1.0 n'a ni comptes utilisateurs ni base d'uploads. L'opérateur d'hébergement peut voir les logs ; n'envoyez pas de secrets ni de PHI.",
+    "data_h": "Données d'exemple et tierces",
+    "data_body": "Les démos synthétiques sont générées par STP. Les CSV `sddb_rr_*_demo` sont des **exports éducatifs dérivés** (RR traité), pas les fichiers bruts PhysioNet (`.dat`). Citez PhysioNet/SDDB et respectez leurs ToS si vous redistribuez ou publiez. Voir `content/legal/licenses.md`.",
+    "cite_h": "Comment citer",
+    "cite_body": "1. Logiciel : *Systemic Tau Platform* (v1.0, MIT), https://github.com/johelpadilla/systemic-tau-platform  \n2. Article/preprint du domaine (p.ex. CCTP Zenodo 10.5281/zenodo.21270699).  \n3. Jeu de données original (PhysioNet, LTER, etc.).  \n4. Optionnel : paquets `systemictau` / `nested-recd` s'ils ont été utilisés.",
+    "contact_h": "Contact et support",
+    "contact_body": "- Email : **johel.padilla@upr.edu**  \n- GitHub Issues : bugs, traductions, données  \n- Sécurité : voir `SECURITY.md` (pas d'issues publiques avec exploits)",
+    "limits_h": "Limites du mode public",
+    "limits_body": "Lignes, colonnes, taille CSV et nombre de surrogates sont plafonnés dans le Lab web pour éviter l'abus CPU. Pour de longues séries ou Full + IAAFT intensif, utilisez le CLI local (`stp analyze`).",
+    "review_h": "Revue des traductions",
+    "review_body": "ES est la langue source. EN/FR ont la parité des clés UI et des contenus. Une revue native périodique de Fondements, Lab et cette page légale est recommandée."
   }
 }

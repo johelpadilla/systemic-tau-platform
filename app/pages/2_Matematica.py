@@ -16,7 +16,7 @@ import streamlit as st
 from stp.i18n.core import t
 
 from components.illustrations import show_illustration
-from components.ui import page_link, callout, footer, learning_goals, page_header, section_header
+from components.ui import page_link, callout, footer, learning_goals, page_header, section_header, safe_set_page_config
 from stp.core.ordinal import bandt_pompe_symbols
 from stp.core.pipeline import run_analysis
 from stp.config.settings import AnalysisParams
@@ -24,7 +24,7 @@ from stp.data.generators import coupled_logistic
 from stp.education.content_loader import read_markdown
 from stp.visualization.series_plots import plot_recd_panel, plot_tau
 
-st.set_page_config(page_title=t("matematica.page_title"), page_icon="🌀", layout="wide")
+safe_set_page_config(page_title=t("matematica.page_title"), page_icon="🌀", layout="wide")
 
 page_header(
     t("matematica.title"),

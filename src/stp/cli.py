@@ -80,7 +80,9 @@ def cmd_analyze(args: argparse.Namespace) -> int:
 
 def cmd_serve(args: argparse.Namespace) -> int:
     root = _ensure_src_path()
-    app = root / "app" / "Home.py"
+    app = root / "app" / "streamlit_app.py"
+    if not app.exists():
+        app = root / "app" / "Home.py"
     import os
     import subprocess
 

@@ -14,14 +14,14 @@ from stp.i18n.core import t
 import yaml
 
 from components.illustrations import show_illustration
-from components.ui import page_link, callout, footer, learning_goals, page_header, section_header
+from components.ui import page_link, callout, footer, learning_goals, page_header, section_header, safe_set_page_config
 from stp.config.settings import AnalysisParams
 from stp.core.pipeline import run_analysis
 from stp.data.catalog import load_dataset
 from stp.i18n.content import localized_content_path
 from stp.visualization.series_plots import plot_dual_summary, plot_ews_comparison
 
-st.set_page_config(page_title=t("evidencia.page_title"), page_icon="🌀", layout="wide")
+safe_set_page_config(page_title=t("evidencia.page_title"), page_icon="🌀", layout="wide")
 
 page_header(
     t("evidencia.title_full"),

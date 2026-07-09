@@ -21,7 +21,7 @@
     "partial": "Parcial",
     "learning_goals": "Objetivos de aprendizaje",
     "suggested_path": "Ruta sugerida",
-    "footer": "Systemic Tau Platform · v1.0 · Alineado con systemictau, nested-recd y CCTP/SDDB",
+    "footer": "Systemic Tau Platform · v1.0 · MIT · Investigación y docencia · No es dispositivo médico ni consejo de inversión",
     "content_missing": "Contenido no encontrado: `{path}`",
     "event": "evento",
     "domain": "dominio",
@@ -31,7 +31,15 @@
     "untitled": "Sin título",
     "file_missing": "Archivo no encontrado: {path}",
     "generated_sections": "Generado por STP · {n} secciones",
-    "part_n": "Parte {i}. {title}"
+    "part_n": "Parte {i}. {title}",
+    "disclaimer_title": "Aviso importante",
+    "disclaimer_body": "Esta plataforma es una herramienta de <strong>investigación y docencia</strong>. <strong>No</strong> es un dispositivo médico, <strong>no</strong> realiza diagnósticos clínicos, <strong>no</strong> constituye consejo de inversión ni predicción operativa. Los resultados requieren validación científica independiente.",
+    "privacy_title": "Datos que sube el usuario",
+    "privacy_body": "Los CSV se procesan <strong>en la sesión actual</strong> (memoria del servidor de la app). <strong>No</strong> se almacenan de forma persistente, <strong>no</strong> se reentrenan modelos y <strong>no</strong> se envían a terceros por esta plataforma. Evite subir datos personales o PHI/PII.",
+    "cite_short": "Cite la plataforma (MIT) y el paper/dataset del dominio.",
+    "contact_line": "Contacto: johel.padilla@upr.edu · Issues en GitHub",
+    "about_legal": "Acerca de y legal",
+    "limits_note": "Límites públicos: ≤{rows} filas · ≤{cols} columnas · ≤{surr} nulos · CSV ≤{mb} MB"
   },
   "nav": {
     "home": "Inicio",
@@ -61,7 +69,9 @@
     "lab": "Laboratorio →",
     "start_fundamentos": "Empezar por Fundamentos →",
     "evidence_cctp": "Ver evidencia CCTP →",
-    "full_materials": "Ver catálogo completo de materiales →"
+    "full_materials": "Ver catálogo completo de materiales →",
+    "about": "Acerca de y legal",
+    "open_about": "Acerca de, legal y citas →"
   },
   "domains": {
     "cardiology": "Cardiología",
@@ -317,7 +327,13 @@
     "mem_cap": "Memoria: MI lag-1={mi:.4f}, cross-MI={cmi:.4f}",
     "tda_cap": "TDA ({backend}): Δβ₀={db0:+.3f}, Δβ₁={db1:+.3f}",
     "bw_cap": "Breathing: W∈[{wmin}–{wmax}]",
-    "query_fail": "No se pudo cargar dataset de query: {err}"
+    "query_fail": "No se pudo cargar dataset de query: {err}",
+    "privacy_banner": "Privacidad del upload: el CSV se lee en sesión y no se guarda en disco del servicio. No suba datos clínicos identificables ni secretos.",
+    "csv_too_large": "CSV rechazado: {n} filas × {c} columnas supera el límite público ({max_r}×{max_c}). Recorte o use el CLI local.",
+    "csv_mb_limit": "Archivo demasiado grande ({mb:.1f} MB). Máximo público: {max_mb} MB.",
+    "surr_capped": "Nulos limitados a {n} en modo público compartido.",
+    "tda_public_cap": "TDA en demo pública usa ventana más ligera; para análisis pesados use CLI local.",
+    "abuse_hint": "Modo público: surrogates y TDA están acotados para proteger el servidor compartido."
   },
   "ruta": {
     "page_title": "Ruta | STP",
@@ -728,5 +744,30 @@
     "social_polarization_demo": "Polarización-like (opiniones + interacción)",
     "education_cohort_demo": "Cohorte de aprendizaje (engagement · peers · carga)",
     "sleep_fragmentation_demo": "Sueño-like (HRV · actividad · temp)"
+  },
+  "about": {
+    "page_title": "Acerca de y legal · STP",
+    "title": "Acerca de, legal y citas",
+    "subtitle": "Licencias, privacidad, disclaimer, contacto y cómo citar",
+    "eyebrow": "Transparencia",
+    "goal_1": "Conocer el alcance legal y ético de la plataforma.",
+    "goal_2": "Citar software, papers y datasets correctamente.",
+    "goal_3": "Saber cómo reportar un problema o contribuir.",
+    "software": "Software",
+    "software_body": "Licencia **MIT**. Autor: Johel Padilla-Villanueva (ORCID 0000-0002-5797-6931). Repositorio y issues: ver README / GitHub.",
+    "disclaimer_h": "Disclaimer de uso",
+    "disclaimer_body": "No es un dispositivo médico ni un sistema de diagnóstico. No es consejo de inversión ni herramienta de trading. No sustituye juicio clínico, epidemiológico o de ingeniería. Uso educativo e investigación metodológica.",
+    "privacy_h": "Privacidad y uploads",
+    "privacy_body": "En despliegues Streamlit típicos, los archivos subidos viven en la memoria de la sesión del usuario y no se escriben al catálogo de la app. No hay cuenta de usuario ni base de datos de uploads en v1.0. El operador del hosting puede ver logs del proceso; no suba secretos ni PHI.",
+    "data_h": "Datos de muestra y terceros",
+    "data_body": "Los demos sintéticos son generados por STP. Los CSV `sddb_rr_*_demo` son **exportaciones derivadas educativas** (RR procesado), no los ficheros crudos PhysioNet (`.dat`). Debe citar PhysioNet/SDDB y cumplir su ToS si redistribuye o publica resultados. Ver `content/legal/licenses.md`.",
+    "cite_h": "Cómo citar",
+    "cite_body": "1. Software: *Systemic Tau Platform* (v1.0, MIT), https://github.com/johelpadilla/systemic-tau-platform  \n2. Paper/preprint del dominio (p.ej. CCTP Zenodo 10.5281/zenodo.21270699).  \n3. Dataset original (PhysioNet, LTER, etc.).  \n4. Opcional: paquetes `systemictau` / `nested-recd` si se usaron.",
+    "contact_h": "Contacto y soporte",
+    "contact_body": "- Email: **johel.padilla@upr.edu**  \n- GitHub Issues: bugs, traducciones, datos  \n- Seguridad: ver `SECURITY.md` (no abrir issues públicos con exploits)",
+    "limits_h": "Límites del modo público",
+    "limits_body": "Filas, columnas, tamaño de CSV y número de surrogates están acotados en el Lab web para evitar abuso de CPU. Para series largas o Full + IAAFT intensivo, use el CLI local (`stp analyze`).",
+    "review_h": "Revisión de traducciones",
+    "review_body": "ES es la lengua fuente. EN/FR tienen paridad de claves UI y contenidos. Se recomienda revisión nativa periódica de Fundamentos, Lab y esta página legal."
   }
 }

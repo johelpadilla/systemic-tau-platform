@@ -13,10 +13,10 @@ import streamlit as st
 from stp.i18n.core import t
 from stp.domains import domain_label
 
-from components.ui import page_link, callout, footer, learning_goals, page_header, section_header
+from components.ui import page_link, callout, footer, learning_goals, page_header, section_header, safe_set_page_config
 from stp.education.content_loader import read_markdown
 
-st.set_page_config(page_title=t("dominios.page_title"), page_icon="🌀", layout="wide")
+safe_set_page_config(page_title=t("dominios.page_title"), page_icon="🌀", layout="wide")
 
 page_header(
     t("dominios.title"),

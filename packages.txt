@@ -1,0 +1,2 @@
+# System packages for Streamlit Community Cloud (if native deps are needed).
+# Currently empty — pure-Python scientific stack.

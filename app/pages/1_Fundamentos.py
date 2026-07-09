@@ -12,11 +12,11 @@ ROOT = ensure_stp_path(__file__)
 import streamlit as st
 
 from components.illustrations import show_illustration
-from components.ui import page_link, footer, learning_goals, page_header
+from components.ui import page_link, footer, learning_goals, page_header, safe_set_page_config
 from stp.education.content_loader import read_markdown
 from stp.i18n.core import t
 
-st.set_page_config(page_title=t("fundamentos.page_title"), page_icon="🌀", layout="wide")
+safe_set_page_config(page_title=t("fundamentos.page_title"), page_icon="🌀", layout="wide")
 
 page_header(
     t("fundamentos.title"),

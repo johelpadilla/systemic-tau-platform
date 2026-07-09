@@ -8,10 +8,17 @@ font = "sans serif"
 [server]
 headless = true
 fileWatcherType = "none"
-maxUploadSize = 200
+# Public demo: keep uploads modest (anti-abuse). Local CLI has no such cap.
+maxUploadSize = 15
+enableCORS = false
+enableXsrfProtection = true
 
 [browser]
 gatherUsageStats = false
 
 [client]
 toolbarMode = "minimal"
+showErrorDetails = false
+
+[runner]
+fastReruns = true

@@ -7,7 +7,25 @@ from typing import Any
 
 import streamlit as st
 
+from stp.config.settings import (
+    MAX_CSV_COLS,
+    MAX_CSV_MB,
+    MAX_CSV_ROWS,
+    MAX_SURROGATES_PUBLIC,
+)
 from stp.i18n.core import LANG_LABELS, SUPPORTED_LANGS, get_lang, set_lang, t
+
+
+def safe_set_page_config(**kwargs: Any) -> None:
+    """``set_page_config`` only works as the first Streamlit call.
+
+    Under ``st.navigation`` the entrypoint already configured the page;
+    individual page modules must not crash.
+    """
+    try:
+        st.set_page_config(**kwargs)
+    except Exception:
+        pass
 
 
 def page_link(
@@ -32,6 +50,37 @@ def page_link(
             qs = "&".join(f"{k}={v}" for k, v in query_params.items())
             extra = f" · `{page}?{qs}`"
         st.caption(f"{prefix}{label}{extra}")
+
+
+def disclaimer_banner(*, compact: bool = False) -> None:
+    """Visible legal disclaimer (all public-facing pages)."""
+    title = t("common.disclaimer_title")
+    body = t("common.disclaimer_body")
+    if compact:
+        st.caption(f"**{title}.** {body.replace('<strong>', '').replace('</strong>', '')}")
+        return
+    st.markdown(
+        f"""
+        <div class="stp-callout" style="border-left:4px solid #C45C26;margin:0.6rem 0 1rem 0;">
+          <strong>{title}</strong><br/>{body}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def privacy_banner() -> None:
+    """Upload / session privacy notice (Lab)."""
+    st.info(t("lab.privacy_banner"))
+    st.caption(
+        t(
+            "common.limits_note",
+            rows=MAX_CSV_ROWS,
+            cols=MAX_CSV_COLS,
+            surr=MAX_SURROGATES_PUBLIC,
+            mb=int(MAX_CSV_MB),
+        )
+    )
 
 
 def inject_css() -> None:
@@ -89,6 +138,8 @@ def render_hero(
     tagline: str = "Paradigma Tau Sistémico: de la teoría a la práctica",
     badge: str = "v1.0 · Educational & Research",
     description: str | None = None,
+    *,
+    show_disclaimer: bool = True,
 ) -> None:
     inject_css()
     sidebar_brand()
@@ -113,6 +164,8 @@ def render_hero(
         """,
         unsafe_allow_html=True,
     )
+    if show_disclaimer:
+        disclaimer_banner(compact=False)
 
 
 def page_header(
@@ -120,6 +173,8 @@ def page_header(
     subtitle: str = "",
     eyebrow: str = "",
     icon: str = "",
+    *,
+    show_disclaimer: bool = True,
 ) -> None:
     """Consistent page title block used across multipage app."""
     inject_css()
@@ -137,6 +192,8 @@ def page_header(
         """,
         unsafe_allow_html=True,
     )
+    if show_disclaimer:
+        disclaimer_banner(compact=True)
 
 
 def section_header(title: str, number: str | int | None = None) -> None:
@@ -259,9 +316,18 @@ def empty_state(message: str, icon: str = "📂") -> None:
 def footer() -> None:
     """Institutional footer strip (shared by all pages)."""
     st.markdown(
-        f'<div class="stp-footer">{t("common.footer")}</div>',
+        f"""
+        <div class="stp-footer">
+          {t("common.footer")}<br/>
+          <span class="stp-muted">{t("common.cite_short")} · {t("common.contact_line")}</span>
+        </div>
+        """,
         unsafe_allow_html=True,
     )
+    try:
+        page_link("pages/9_About_Legal.py", label=t("nav.open_about"), icon="⚖️")
+    except Exception:
+        st.caption(t("nav.open_about"))
 
 
 def lab_stepper(active: int = 1, has_data: bool = False, has_result: bool = False) -> None:

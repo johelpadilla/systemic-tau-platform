@@ -14,10 +14,10 @@ ROOT = ensure_stp_path(__file__)
 import streamlit as st
 from stp.i18n.core import t
 
-from components.ui import page_link, callout, footer, learning_goals, page_header, section_header
+from components.ui import page_link, callout, footer, learning_goals, page_header, section_header, safe_set_page_config
 from stp.education.handouts import get_handout, list_handouts, render_handout, render_handout_bytes
 
-st.set_page_config(page_title=t("materiales.page_title"), page_icon="🌀", layout="wide")
+safe_set_page_config(page_title=t("materiales.page_title"), page_icon="🌀", layout="wide")
 
 page_header(
     t("materiales.title"),

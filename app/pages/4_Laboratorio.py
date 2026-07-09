@@ -24,10 +24,21 @@ from components.ui import (
     lab_stepper,
     learning_goals,
     page_header,
+    privacy_banner,
+    safe_set_page_config,
     section_header,
 )
 from stp.config import settings as _settings
-from stp.config.settings import AnalysisParams, DOMAIN_PRESETS
+from stp.config.settings import (
+    AnalysisParams,
+    DOMAIN_PRESETS,
+    MAX_CSV_COLS,
+    MAX_CSV_MB,
+    MAX_CSV_ROWS,
+    MAX_SURROGATES_FAST_DEFAULT,
+    MAX_SURROGATES_FULL_DEFAULT,
+    MAX_SURROGATES_PUBLIC,
+)
 
 # Defensive: hot-reload / stale modules must not crash the Lab
 DOMAIN_LABELS = getattr(
@@ -62,7 +73,7 @@ from stp.visualization.series_plots import (
     plot_tda_betti,
 )
 
-st.set_page_config(page_title=t("lab.page_title"), page_icon="🌀", layout="wide")
+safe_set_page_config(page_title=t("lab.page_title"), page_icon="🌀", layout="wide")
 
 page_header(
     t("lab.title"),
@@ -120,6 +131,8 @@ lab_stepper(active=step, has_data=has_data, has_result=has_result)
 # ============================================================
 section_header(t("lab.step_data"), number="1")
 st.markdown(t("lab.data_blurb"))
+privacy_banner()
+st.caption(t("lab.abuse_hint"))
 
 source_opts = [t("lab.source_catalog"), t("lab.source_csv")]
 source = st.radio("src", source_opts, horizontal=True, label_visibility="collapsed")
@@ -181,44 +194,68 @@ else:
     )
     st.caption(domain_hint(domain))
     if up is not None:
+        size_mb = float(getattr(up, "size", 0) or 0) / (1024 * 1024)
+        if size_mb > MAX_CSV_MB:
+            st.error(t("lab.csv_mb_limit", mb=size_mb, max_mb=MAX_CSV_MB))
+            up = None
+    if up is not None:
         df = pd.read_csv(up)
         num = df.select_dtypes(include=[np.number])
-        st.dataframe(num.head(8), width="stretch")
-        adapter = get_adapter(domain)
-        suggested = [c for c in adapter.suggested_columns if c in num.columns]
-        default_cols = suggested[:3] if suggested else list(num.columns)[: min(3, num.shape[1])]
-        cols = st.multiselect(
-            t("lab.vars"),
-            list(num.columns),
-            default=default_cols,
-            help=t("lab.vars_help"),
-        )
-        use_event = st.checkbox(t("lab.mark_event"), value=False)
-        ev = None
-        if use_event:
-            ev = st.number_input(
-                t("lab.event_index"),
-                min_value=0,
-                max_value=max(0, len(num) - 1),
-                value=len(num) // 2,
-                step=1,
+        n_rows, n_cols = int(num.shape[0]), int(num.shape[1])
+        if n_rows > MAX_CSV_ROWS or n_cols > MAX_CSV_COLS:
+            st.error(
+                t(
+                    "lab.csv_too_large",
+                    n=n_rows,
+                    c=n_cols,
+                    max_r=MAX_CSV_ROWS,
+                    max_c=MAX_CSV_COLS,
+                )
             )
-            event_label = st.text_input(t("lab.event_label"), value=t("common.event"))
-        if len(cols) >= 1 and st.button(t("lab.use_csv"), type="primary"):
-            bundle = adapter.prepare(df, columns=cols, event_index=int(ev) if use_event else None)
-            st.session_state["lab_X"] = bundle.X
-            st.session_state["lab_domain"] = domain
-            st.session_state["lab_event"] = bundle.event_index
-            st.session_state["lab_event_label"] = event_label if use_event else t("common.event")
-            st.session_state["lab_meta"] = {
-                "variables": bundle.variables,
-                "source": up.name,
-                "title": up.name,
-            }
-            st.session_state["lab_has_data"] = True
-            st.session_state["lab_source_label"] = up.name
-            st.session_state.pop("lab_result", None)
-            st.rerun()
+        else:
+            st.dataframe(num.head(8), width="stretch")
+            adapter = get_adapter(domain)
+            suggested = [c for c in adapter.suggested_columns if c in num.columns]
+            default_cols = suggested[:3] if suggested else list(num.columns)[: min(3, num.shape[1])]
+            cols = st.multiselect(
+                t("lab.vars"),
+                list(num.columns),
+                default=default_cols,
+                help=t("lab.vars_help"),
+            )
+            # Cap variables to public column budget
+            if len(cols) > MAX_CSV_COLS:
+                cols = cols[:MAX_CSV_COLS]
+                st.warning(t("lab.csv_too_large", n=n_rows, c=len(cols), max_r=MAX_CSV_ROWS, max_c=MAX_CSV_COLS))
+            use_event = st.checkbox(t("lab.mark_event"), value=False)
+            ev = None
+            if use_event:
+                ev = st.number_input(
+                    t("lab.event_index"),
+                    min_value=0,
+                    max_value=max(0, len(num) - 1),
+                    value=len(num) // 2,
+                    step=1,
+                )
+                event_label = st.text_input(t("lab.event_label"), value=t("common.event"))
+            if len(cols) >= 1 and st.button(t("lab.use_csv"), type="primary"):
+                # Row cap defensive slice
+                if len(df) > MAX_CSV_ROWS:
+                    df = df.iloc[:MAX_CSV_ROWS].copy()
+                bundle = adapter.prepare(df, columns=cols, event_index=int(ev) if use_event else None)
+                st.session_state["lab_X"] = bundle.X
+                st.session_state["lab_domain"] = domain
+                st.session_state["lab_event"] = bundle.event_index
+                st.session_state["lab_event_label"] = event_label if use_event else t("common.event")
+                st.session_state["lab_meta"] = {
+                    "variables": bundle.variables,
+                    "source": up.name,
+                    "title": up.name,
+                }
+                st.session_state["lab_has_data"] = True
+                st.session_state["lab_source_label"] = up.name
+                st.session_state.pop("lab_result", None)
+                st.rerun()
     else:
         empty_state(t("lab.empty_csv"), "📄")
 
@@ -301,7 +338,10 @@ with p2:
         help=t("lab.null_help"),
     )
 with p3:
-    n_surr_default = 8 if mode == "fast" else 24
+    n_surr_default = (
+        MAX_SURROGATES_FAST_DEFAULT if mode == "fast" else MAX_SURROGATES_FULL_DEFAULT
+    )
+    n_surr_default = min(n_surr_default, MAX_SURROGATES_PUBLIC)
     eta_params = {
         "window": preset["window"],
         "stride": preset["stride"],
@@ -321,7 +361,9 @@ seed = c4.number_input(t("lab.seed"), 0, 10_000, 42)
 
 m1, m2, m3, m4 = st.columns(4)
 m = m1.select_slider(t("lab.m_bp"), options=[2, 3, 4, 5], value=int(preset.get("m", 3)))
-n_surr = m2.slider(t("lab.n_surr"), 0, 50, n_surr_default)
+n_surr = m2.slider(t("lab.n_surr"), 0, MAX_SURROGATES_PUBLIC, n_surr_default)
+if n_surr >= MAX_SURROGATES_PUBLIC:
+    st.caption(t("lab.surr_capped", n=MAX_SURROGATES_PUBLIC))
 with m3:
     include_breathing = st.checkbox(
         t("lab.breathing"),
@@ -333,6 +375,8 @@ with m3:
         value=(mode == "full"),
         help=t("lab.tda_help"),
     )
+    if include_tda:
+        st.caption(t("lab.tda_public_cap"))
 with m4:
     include_memory = st.checkbox(
         t("lab.memory"),

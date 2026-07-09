@@ -15,6 +15,7 @@ import streamlit as st
 
 from components.illustrations import show_illustration
 from components.ui import (
+    safe_set_page_config,
     page_link,
     achieve_card,
     callout,
@@ -29,7 +30,7 @@ from components.ui import (
 from stp.education.content_loader import read_markdown
 from stp.i18n.core import t
 
-st.set_page_config(
+safe_set_page_config(
     page_title=t("meta.app_title"),
     page_icon="🌀",
     layout="wide",
@@ -184,6 +185,7 @@ with r3:
     page_link("pages/7_Docencia.py", label=t("nav.teaching_6w"), icon="🎓")
 with r4:
     page_link("pages/8_Materiales.py", label=t("nav.downloadable"), icon="📦")
+page_link("pages/9_About_Legal.py", label=t("nav.open_about"), icon="⚖️")
 
 last = st.session_state.get("lab_result")
 if last is not None:

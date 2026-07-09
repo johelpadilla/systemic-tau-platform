@@ -12,6 +12,17 @@ DATA_DIR = ROOT / "data"
 SAMPLES_DIR = DATA_DIR / "samples"
 CATALOG_PATH = DATA_DIR / "catalog" / "datasets.yaml"
 
+# Public / shared-hosting caps (Lab web). CLI is unconstrained.
+MAX_CSV_ROWS = 50_000
+MAX_CSV_COLS = 12
+MAX_CSV_MB = 15.0
+MAX_SURROGATES_PUBLIC = 30
+MAX_SURROGATES_FAST_DEFAULT = 8
+MAX_SURROGATES_FULL_DEFAULT = 24
+CONTACT_EMAIL = "johel.padilla@upr.edu"
+GITHUB_URL = "https://github.com/johelpadilla/systemic-tau-platform"
+ORCID = "0000-0002-5797-6931"
+
 
 class ThemeColors(BaseModel):
     navy: str = "#0D4F6B"
