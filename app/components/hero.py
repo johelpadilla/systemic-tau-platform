@@ -177,10 +177,10 @@ def empty_state(message: str, icon: str = "📂") -> None:
 
 def footer() -> None:
     st.markdown(
-        """
+        f"""
         <div class="stp-footer">
-          <strong>Systemic Tau Platform</strong> · v1.0 ·
-          Alineado con <em>systemictau</em>, <em>nested-recd</em> y CCTP/SDDB
+          <div>{t("footer_text")}</div>
+          <div class="stp-footer-disclaimer">{t("footer_disclaimer")}</div>
         </div>
         """,
         unsafe_allow_html=True,

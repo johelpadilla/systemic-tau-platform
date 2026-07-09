@@ -918,3 +918,10 @@ a[data-testid="stPageLink-NavLink"]:hover {
   color: var(--stp-muted);
   font-weight: 600;
 }
+
+.stp-footer-disclaimer {
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--stp-muted-2);
+}
