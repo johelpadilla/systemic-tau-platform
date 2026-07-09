@@ -16,7 +16,7 @@ from components.hero import inject_css
 from stp.core.ordinal import bandt_pompe_symbols
 from stp.core.pipeline import run_analysis
 from stp.config.settings import AnalysisParams
-from stp.data.generators import coupled_logistic
+from stp.data.synthetic_generators import coupled_logistic
 from stp.education.content_loader import read_markdown
 from stp.visualization.series_plots import plot_recd_panel, plot_tau
 
