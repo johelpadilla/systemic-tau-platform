@@ -1,0 +1,202 @@
+meta:
+  source: es
+  locale: fr
+terms:
+  - id: tau_s
+    term: "Tau systémique (τ_s)"
+    short: "Métrique ordinale–relationnelle de réorganisation du couplage entre variables."
+    long: |
+      Sur des fenêtres glissantes, elle résume les changements de la structure d’ordre partagée d’un système multivarié.
+      Elle ne demande pas « de combien chaque variable bouge ? » mais « comment se réorganisent les relations d’ordre entre elles ? ».
+      Elle s’interprète avec les EWS classiques et RECD/excess3 ; le signe de ses deltas est context-dependent.
+    level: basique
+    related: [recd, ews, bandt_pompe]
+
+  - id: recd
+    term: "RECD"
+    short: "Horloge extramentale discrète — temps émergent du système."
+    long: |
+      Accumulation d’avancées ΔRECD générées par des conjonctions ordinales imbriquées (Φ₁–Φ₃),
+      modulées par le régime λ (souvent lié à |τ_s|). Opérationnalise Chronos (index CSV)
+      vs Kairos (ticks pondérés par la réorganisation). Implémenté dans nested-recd et le Lab v1.0.
+    level: basique
+    related: [phi1, phi2, phi3, excess3, kairos]
+
+  - id: phi1
+    term: "Φ₁ (Niveau 1)"
+    short: "Fraction de paires de variables partageant le même symbole ordinal en t."
+    long: |
+      Coïncidence Bandt–Pompe normalisée sur [0,1]. La plus petite « poupée » de l’horloge imbriquée :
+      nécessaire comme base statistique, insuffisante seule pour parler d’émergence.
+      Piège : un Φ₁ élevé ne prouve pas à lui seul une synergie irréductible.
+    level: intermédiaire
+    related: [phi2, bandt_pompe]
+
+  - id: phi2
+    term: "Φ₂ (Niveau 2)"
+    short: "Persistance de relations ordinales par paires pendant ≥ d pas."
+    long: |
+      Capture des habitudes relationnelles (EQ/GT/LT) qui se maintiennent, pas seulement des éclairs d’égalité.
+      Paramètre typique d=4. Utile pour penser l’hyper-persistance (p.ex. régimes de transmission de la dengue).
+    level: intermédiaire
+    related: [phi1, phi3]
+
+  - id: phi3
+    term: "Φ₃ (Niveau 3)"
+    short: "Indicateur binaire de synergie irréductible au-dessus de θ₃."
+    long: |
+      S’active lorsque excess3 dépasse le seuil θ₃ (≈0.08 en cardio CCTP ; ≈0.10 par défaut).
+      Sur données bruitées il peut rester à zéro alors qu’excess3 bouge : d’où la primauté du proxy continu.
+    level: intermédiaire
+    related: [excess3, recd]
+
+  - id: excess3
+    term: "excess3"
+    short: "Proxy continu de synergie ordinale irréductible (Niveau 3)."
+    long: |
+      Combine l’excès de corrélation totale au-delà des paires et/ou la surprise conjointe vs indépendance.
+      Métrique primaire en CCTP (mean_excess3 et son Δ). Ce n’est pas la causalité ; c’est une irréductibilité
+      symbolique falsifiable avec des surrogates phase-shuffle.
+    level: intermédiaire
+    related: [phi3, surrogates, cctp]
+
+  - id: bandt_pompe
+    term: "Motifs Bandt–Pompe"
+    short: "Symboles de permutation locale d’une série (plongement ordinal)."
+    long: |
+      Avec dimension m et retard τ on obtient un alphabet de m! motifs (m=3 → 6 symboles).
+      Base de Φ₁–Φ₃ et des entropies de permutation. Invariant sous transformations monotones.
+      À pratiquer dans le sandbox Mathématiques avant d’interpréter le RECD.
+    level: basique
+    related: [tau_s, phi1]
+
+  - id: ews
+    term: "EWS classiques"
+    short: "Early Warning Signals univariées (var, AR1, etc.)."
+    long: |
+      Motivées par le critical slowing down. Utiles mais incomplètes lorsque la transition est
+      une réorganisation multivariée. Le Lab v1.0 les calcule en parallèle comme panneau de contrôle
+      (lecture duale obligatoire en enseignement).
+    level: basique
+    related: [csd, tau_s]
+
+  - id: csd
+    term: "Critical Slowing Down"
+    short: "Ralentissement de la récupération près d’une bifurcation."
+    long: |
+      Prédit var↑ et AR1↑ dans beaucoup de modèles de potentiel. Ce n’est pas la seule voie générique en physiologie réelle :
+      en CCTP, l’AR1 baisse souvent malgré une transition clinique claire.
+    level: basique
+    related: [ews]
+
+  - id: breathing_window
+    term: "Breathing Window"
+    short: "Fenêtre d’analyse dont la longueur s’adapte au régime du système."
+    long: |
+      Évite le biais d’une W fixe lorsque le tempo interne (RECD) change.
+      Dans le Lab v1.0 la fenêtre adaptative est une extension opérationnelle ; les presets de domaine utilisent encore une W fixe par défaut.
+    level: avancé
+    related: [tau_s, recd]
+
+  - id: surrogates
+    term: "Surrogates (IAAFT / phase-shuffle)"
+    short: "Séries nulles qui préservent des propriétés univariées et brisent la structure cible."
+    long: |
+      Phase-shuffle (noyau v1.0) : préserve le spectre par canal, détruit la dépendance croisée —
+      nul naturel pour « le signal est-il relationnel ? ». IAAFT : préserve spectre et distribution.
+      Essentiels pour les p-valeurs de Δτ_s et Δexcess3. Fast : n≈8 ; pour citation : n≥50.
+    level: intermédiaire
+    related: [excess3, tau_s]
+
+  - id: tda
+    term: "TDA / nombres de Betti"
+    short: "Topological Data Analysis du nuage d’états (Tier 4)."
+    long: |
+      Complète l’axe ordinal temporel par la topologie (composantes, cycles).
+      Coûteux ; horizon mode Full. Ne bloquez pas l’apprentissage du noyau τ_s+RECD dessus.
+    level: avancé
+    related: [tau_s]
+
+  - id: cctp
+    term: "CCTP"
+    short: "Cardiac Critical Transitions Protocol."
+    long: |
+      Protocole et étude appliquant τ_s + RECD à des Holters SDDB avant FV spontanée (N=10 haute qualité).
+      Résultats clés : panneau classique souvent ambigu (var↑, AR1↓) ; Δτ_s et Δexcess3 avec surrogates ;
+      concordance de signe 8/10. Ancre empirique principale de la plateforme v1.0.
+    level: intermédiaire
+    related: [tau_s, excess3, sddb]
+
+  - id: sddb
+    term: "SDDB"
+    short: "Sudden Cardiac Death Holter Database (PhysioNet)."
+    long: |
+      Holters publics avec dynamique pré-FV. Échantillons de la plateforme : enregistrements 38 (signal fort)
+      et 51 (pacing intermittent). Les données originales exigent le respect des ToS PhysioNet.
+    level: intermédiaire
+    related: [cctp]
+
+  - id: kairos
+    term: "Kairos vs Chronos"
+    short: "Temps significatif du système vs temps de l’horloge externe."
+    long: |
+      Chronos est l’index du CSV ou du Holter. Kairos sont les ticks RECD pondérés par la réorganisation
+      (composition des niveaux 2–3). Évite de confondre « plus d’échantillons » avec « plus de temps système ».
+    level: basique
+    related: [recd]
+
+  - id: delta_metric
+    term: "Δ métrique (baseline → approach)"
+    short: "Changement d’une métrique entre fenêtre basale et fenêtre proche de l’événement."
+    long: |
+      Unité de preuve en CCTP et dans le Lab : pas un pic isolé, mais un contraste temporel.
+      Rapporté avec le p des surrogates et la concordance de signe entre τ_s et excess3.
+    level: intermédiaire
+    related: [tau_s, excess3, surrogates]
+
+  - id: repro_hash
+    term: "Hash de reproductibilité"
+    short: "SHA-256 des paramètres + métriques d’une exécution du Lab."
+    long: |
+      Permet de citer et d’auditer un résultat numérique concret de la plateforme v1.0.
+      Si seed, W, m ou les données changent, le hash change. Incluez-le dans rapports et notebooks pédagogiques.
+    level: basique
+    related: [surrogates]
+
+  - id: lectura_dual
+    term: "Lecture duale"
+    short: "Protocole : panneau EWS classique + panneau τ_s/RECD, sans choisir un camp."
+    long: |
+      (1) var/AR1, (2) Δτ_s et Δexcess3 + p_surr, (3) concordance de signe, (4) contexte clinique/épidémiologique,
+      (5) conclusion honnête. Compétence centrale que la v1.0 entraîne dans le Lab.
+    level: basique
+    related: [ews, tau_s, excess3]
+
+  - id: iaaft
+    term: "IAAFT"
+    short: "Surrogate qui préserve spectre et distribution d’amplitudes (par canal)."
+    long: |
+      Iterative Amplitude Adjusted Fourier Transform. Plus strict que le phase-shuffle pur :
+      maintient aussi la PDF de chaque canal. Dans le Lab il s’applique indépendamment par variable
+      pour briser la dépendance croisée sous un nul plus conservateur.
+    level: avancé
+    related: [surrogates]
+
+  - id: ordinal_memory
+    term: "Mémoire ordinale"
+    short: "MI symbolique des motifs Bandt–Pompe à différents lags (et cross-MI entre variables)."
+    long: |
+      Complément optionnel (mode Full) : mesure combien d’information d’ordre est retenue dans le temps
+      et entre canaux. Ce n’est pas la Transfer Entropy complète ; c’est un proxy pédagogique de dépendance symbolique.
+    level: avancé
+    related: [bandt_pompe, tau_s]
+
+  - id: domain_preset
+    term: "Preset de domaine"
+    short: "Defaults calibrés (W, stride, m, θ₃) par domaine : cardio, épi, neuro, éco, climat,\
+  \ social, éducation, sommeil, finance."
+    long: |
+      La cardiologie utilise W≈101 et θ₃≈0.08 (CCTP). L’épidémiologie utilise des fenêtres courtes (W≈13).
+      L’adapter de domaine suggère aussi les colonnes et l’étiquette de l’événement.
+    level: basique
+    related: [tau_s, recd, cctp]

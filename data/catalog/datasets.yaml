@@ -1,0 +1,236 @@
+datasets:
+  synthetic_coupled_logistic:
+    domain: synthetic
+    title: "Logísticos acoplados (switch de acoplamiento)"
+    path: null
+    generator: coupled_logistic
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [x0, x1]
+    event_fraction: 0.5
+    T: 800
+    seed: 3
+    ground_truth: "coupling switch at T/2"
+    default_params:
+      window: 31
+      stride: 2
+      m: 3
+      theta3: 0.10
+
+  synthetic_ar_noise:
+    domain: synthetic
+    title: "AR ruido (control casi-nulo)"
+    path: null
+    generator: ar_noise
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [x0, x1, x2]
+    event_index: null
+    T: 800
+    seed: 4
+    ground_truth: "no designed transition"
+    default_params:
+      window: 31
+      stride: 2
+      m: 3
+      theta3: 0.10
+
+  cardiac_like_demo:
+    domain: cardiology
+    title: "Cardio-like RR sintético (reorg ~65%)"
+    path: null
+    generator: cardiac_like_rr
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [rr, abs_drr]
+    event_fraction: 0.65
+    T: 4000
+    seed: 5
+    ground_truth: "shared patho driver reorganizes RR–dRR after event_at"
+    pedagogical_note: "Sandbox sintético; la cohorte real de referencia es SDDB/CCTP."
+    default_params:
+      window: 101
+      stride: 5
+      m: 3
+      theta3: 0.08
+
+  sddb_rr_38_demo:
+    domain: cardiology
+    title: "SDDB Record 38 — RR demo (export CCTP)"
+    path: samples/sddb_rr_38_demo.csv
+    maturity: very_high
+    license: "PhysioNet + CCTP analysis (demo subset)"
+    variables: [z_rr, z_abs_drr]
+    event_fraction: 0.85
+    status: available
+    ground_truth: "pre-VF approach region (demo)"
+    default_params:
+      window: 101
+      stride: 5
+      m: 3
+      theta3: 0.08
+
+  sddb_rr_51_demo:
+    domain: cardiology
+    title: "SDDB Record 51 — RR demo (export CCTP)"
+    path: samples/sddb_rr_51_demo.csv
+    maturity: very_high
+    license: "PhysioNet + CCTP analysis (demo subset)"
+    variables: [z_rr, z_abs_drr]
+    event_fraction: 0.85
+    status: available
+    ground_truth: "pre-VF approach region (demo)"
+    default_params:
+      window: 101
+      stride: 5
+      m: 3
+      theta3: 0.08
+
+  dengue_like_demo:
+    domain: epidemiology
+    title: "Dengue-like semanal (brote sintético)"
+    path: null
+    generator: dengue_like
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [cases, rain, temp]
+    event_fraction: 0.65
+    T: 400
+    seed: 7
+    ground_truth: "outbreak ramp after event_at"
+    default_params:
+      window: 13
+      stride: 1
+      m: 3
+      theta3: 0.10
+
+  eeg_like_demo:
+    domain: neuroscience
+    title: "EEG-like 3 canales (transición de acoplamiento)"
+    path: null
+    generator: eeg_like
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [ch0, ch1, ch2]
+    event_fraction: 0.7
+    T: 2000
+    seed: 8
+    ground_truth: "coupling increase post-event"
+    default_params:
+      window: 51
+      stride: 2
+      m: 3
+      theta3: 0.10
+
+  ecology_like_demo:
+    domain: ecology
+    title: "Lago-like (bloom / eutrofización sintética)"
+    path: null
+    generator: ecology_like
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [chl_a, phos, do]
+    event_fraction: 0.6
+    T: 300
+    seed: 9
+    ground_truth: "nutrient/bloom shift after event"
+    default_params:
+      window: 25
+      stride: 1
+      m: 3
+      theta3: 0.10
+
+  finance_like_demo:
+    domain: finance
+    title: "Volatilidad-like (cambio de régimen)"
+    path: null
+    generator: finance_like
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [ret, vol, spread]
+    event_fraction: 0.55
+    T: 600
+    seed: 10
+    ground_truth: "volatility regime switch with co-movement"
+    pedagogical_note: "Transferencia metodológica — no es una herramienta de trading."
+    default_params:
+      window: 21
+      stride: 1
+      m: 3
+      theta3: 0.10
+
+  climate_drought_demo:
+    domain: climate
+    title: "Sequía-like (temp · precip · suelo)"
+    path: null
+    generator: climate_like
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [temp_anom, precip, soil_moisture]
+    event_fraction: 0.62
+    T: 480
+    seed: 11
+    ground_truth: "shared drought latent reorganizes climate triad"
+    pedagogical_note: "Puente con literatura CSD de umbrales climáticos/hidro."
+    default_params:
+      window: 21
+      stride: 1
+      m: 3
+      theta3: 0.10
+
+  social_polarization_demo:
+    domain: social
+    title: "Polarización-like (opiniones + interacción)"
+    path: null
+    generator: social_like
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [opinion_a, opinion_b, interaction]
+    event_fraction: 0.56
+    T: 500
+    seed: 12
+    ground_truth: "polarization latent anti-correlates opinions"
+    pedagogical_note: "Modelo de juguete para reorganización colectiva — no predicción social."
+    default_params:
+      window: 21
+      stride: 1
+      m: 3
+      theta3: 0.10
+
+  education_cohort_demo:
+    domain: education
+    title: "Cohorte de aprendizaje (engagement · peers · carga)"
+    path: null
+    generator: education_like
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [engagement, peer_sync, cognitive_load]
+    event_fraction: 0.55
+    T: 360
+    seed: 13
+    ground_truth: "mid-course shared latent couples learning triad"
+    pedagogical_note: "Meta-pedagógico: el propio aula como sistema relacional."
+    default_params:
+      window: 17
+      stride: 1
+      m: 3
+      theta3: 0.10
+
+  sleep_fragmentation_demo:
+    domain: physiology
+    title: "Sueño-like (HRV · actividad · temp)"
+    path: null
+    generator: sleep_like
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [hrv, activity, core_temp]
+    event_fraction: 0.70
+    T: 2000
+    seed: 14
+    ground_truth: "circadian→fragmentation driver switch"
+    pedagogical_note: "Compañero fisiológico de cardiología; arquitectura del sueño."
+    default_params:
+      window: 51
+      stride: 2
+      m: 3
+      theta3: 0.10

@@ -1,0 +1,91 @@
+publications:
+  - id: cctp_sddb
+    title: "Context-Dependent Relational Reorganization of Heart Rate Dynamics Precedes Spontaneous Ventricular Fibrillation"
+    authors: "Padilla-Villanueva, J."
+    year: 2026
+    type: preprint
+    domain: cardiology
+    doi: "10.5281/zenodo.21270699"
+    highlights:
+      - "N=10 SDDB records"
+      - "Δτ_s and Δexcess3 with phase-shuffle surrogates"
+      - "Sign concordance 8/10; context-dependent direction"
+    status: pilot_validated
+
+  - id: nested_time
+    title: "Nested ordinal RECD and the nature of discrete extramental time"
+    authors: "Padilla-Villanueva, J."
+    year: 2026
+    type: experimental_design
+    domain: theory
+    highlights:
+      - "Φ₁, Φ₂, Φ₃ nested definitions"
+      - "Falsifiable hypotheses H1–H4"
+    status: methods
+
+  - id: magna_synthesis
+    title: "Síntesis Magna del Tau Sistémico"
+    authors: "Padilla-Villanueva, J."
+    year: 2026
+    type: synthesis
+    domain: theory
+    doi: "10.5281/zenodo.20576241"
+    highlights:
+      - "Three ontological layers"
+      - "Principle of ontological ascent"
+    status: reference
+
+  - id: foundations
+    title: "Systemic Tau: Foundations of a Topological Framework for Early Warning Signals"
+    authors: "Padilla-Villanueva, J."
+    year: 2026
+    type: foundations
+    domain: theory
+    doi: "10.5281/zenodo.21210455"
+    highlights:
+      - "Ordinal EWS framework"
+      - "RECD linkage"
+    status: reference
+
+  - id: dengue_tau
+    title: "Tau Sistémico and dengue early warning (selected preprints)"
+    authors: "Padilla-Villanueva, J."
+    year: 2025
+    type: preprint
+    domain: epidemiology
+    highlights:
+      - "Hyper-persistence signals"
+      - "Three-layer ontological framework for dengue"
+    status: high_maturity
+
+comparison_matrix:
+  - approach: "Classical EWS (var, AR1)"
+    interpretability: high
+    multivariate: low
+    ordinal: no
+    clock_model: no
+    surrogate_culture: medium
+  - approach: "Machine Learning classifiers"
+    interpretability: low
+    multivariate: high
+    ordinal: optional
+    clock_model: no
+    surrogate_culture: low
+  - approach: "Pure TDA"
+    interpretability: medium
+    multivariate: high
+    ordinal: optional
+    clock_model: no
+    surrogate_culture: medium
+  - approach: "Classical Transfer Entropy"
+    interpretability: medium
+    multivariate: high
+    ordinal: optional
+    clock_model: no
+    surrogate_culture: medium
+  - approach: "Systemic Tau + RECD"
+    interpretability: high
+    multivariate: high
+    ordinal: yes
+    clock_model: yes
+    surrogate_culture: high
