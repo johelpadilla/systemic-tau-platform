@@ -1,0 +1,55 @@
+datasets:
+  synthetic_coupled_logistic:
+    domain: synthetic
+    title: "Coupled logistic maps with coupling switch"
+    path: null
+    generator: coupled_logistic
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [x0, x1]
+    default_params:
+      window: 51
+      stride: 2
+      m: 3
+      theta3: 0.10
+
+  cardiac_like_demo:
+    domain: cardiology
+    title: "Synthetic RR-like bivariate proxy"
+    path: null
+    generator: cardiac_like_rr
+    maturity: demo
+    license: "Generated in-platform"
+    variables: [rr, abs_drr]
+    default_params:
+      window: 101
+      stride: 5
+      m: 3
+      theta3: 0.08
+
+  # Placeholders for real samples (export via scripts/)
+  sddb_rr_38:
+    domain: cardiology
+    title: "SDDB Record 38 — RR clean (export from CCTP)"
+    path: samples/sddb_rr_38.csv
+    maturity: very_high
+    license: "PhysioNet + CCTP analysis"
+    variables: [z_rr, z_abs_drr]
+    status: pending_export
+    default_params:
+      window: 101
+      stride: 5
+      m: 3
+      theta3: 0.08
+
+  dengue_sj:
+    domain: epidemiology
+    title: "Dengue San Juan weekly (pending sample)"
+    path: samples/dengue_sj_weekly.csv
+    maturity: high
+    status: pending_export
+    default_params:
+      window: 13
+      stride: 1
+      m: 3
+      theta3: 0.10

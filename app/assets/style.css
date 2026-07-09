@@ -1,0 +1,53 @@
+/* Importación de fuente moderna desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+/* Solo aplicamos la tipografía de manera global, SIN forzar colores
+   para no romper el contraste nativo de los botones y alertas de Streamlit */
+* {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Efecto de gradiente Premium para títulos principales, asegurando fallback */
+h1 {
+    background: linear-gradient(90deg, #1E40AF 0%, #3B82F6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: #1E40AF; /* Fallback si el gradiente falla */
+    font-weight: 800;
+}
+
+/* Tarjetas personalizadas (.stp-card) con Glassmorphism suave */
+.stp-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.stp-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1), 0 4px 6px -2px rgba(37, 99, 235, 0.05);
+    border-color: #93C5FD;
+}
+
+/* Títulos específicos dentro de nuestras tarjetas */
+.stp-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0F172A; /* Color oscuro explícito solo para tarjetas */
+}
+
+/* Texto secundario de nuestras tarjetas */
+.stp-muted {
+    color: #475569; /* Gris oscuro legible */
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+    font-weight: 400;
+}
