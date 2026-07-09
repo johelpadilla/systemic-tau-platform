@@ -3,10 +3,12 @@ from __future__ import annotations
 from pathlib import Path
 
 import streamlit as st
+import components.theme as theme
 
 
 def inject_css() -> None:
     """Inject design-system CSS once per page render."""
+    theme.inject_theme_css()
     css_path = Path(__file__).resolve().parents[1] / "assets" / "css" / "custom.css"
     if css_path.exists():
         st.markdown(
@@ -31,6 +33,10 @@ def sidebar_brand() -> None:
         """,
         unsafe_allow_html=True,
     )
+    is_dark = theme.get_current_theme_base() == "dark"
+    new_theme = st.sidebar.toggle("🌌 Modo Oscuro", value=is_dark)
+    if new_theme != is_dark:
+        theme.toggle_theme(new_theme)
 
 
 def render_hero(

@@ -1,36 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
-
 /* ==========================================================================
    Systemic Tau Platform — Design system
-   Quantum Dark · state-of-the-art
+   Dynamic Theme Engine (Colors injected by theme.py)
    ========================================================================== */
-
-:root {
-  --stp-navy: #0F172A; /* Dark slate */
-  --stp-deep: #F8FAFC; /* Bright text for contrast */
-  --stp-teal: #06B6D4; /* Neon cyan */
-  --stp-teal-soft: rgba(6, 182, 212, 0.15);
-  --stp-purple: #A855F7; /* Neon purple */
-  --stp-purple-soft: rgba(168, 85, 247, 0.15);
-  --stp-sand: #1E293B; /* Slightly lighter slate */
-  --stp-sand-2: #334155; 
-  --stp-alert: #F43F5E; /* Neon rose */
-  --stp-bg: #0B1120; /* Deep space */
-  --stp-surface: rgba(30, 41, 59, 0.6); /* Glassmorphism background */
-  --stp-border: rgba(255, 255, 255, 0.1);
-  --stp-border-strong: rgba(255, 255, 255, 0.2);
-  --stp-muted: #94A3B8; 
-  --stp-muted-2: #64748B;
-  --stp-success: #10B981; 
-  --stp-radius: 14px;
-  --stp-radius-sm: 10px;
-  --stp-radius-lg: 20px;
-  --stp-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --stp-shadow-md: 0 8px 32px rgba(6, 182, 212, 0.15);
-  --stp-shadow-lg: 0 12px 48px rgba(168, 85, 247, 0.15);
-  --stp-font: "Outfit", "Inter", "Segoe UI", system-ui, sans-serif;
-  --stp-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
-}
 
 /* ---- App chrome ---- */
 .stApp {
