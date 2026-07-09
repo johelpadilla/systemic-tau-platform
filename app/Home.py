@@ -87,8 +87,8 @@ st.info(
 st.subheader("Accesos rápidos")
 a, b, c, d = st.columns(4)
 a.page_link("pages/1_Fundamentos.py", label="Fundamentos teóricos", icon="📘")
-b.page_link("pages/2_Matematica.py", label="Matemática", icon="📐")
-c.page_link("pages/4_Laboratorio.py", label="Laboratorio", icon="🔬")
+b.page_link("pages/3_Matematica.py", label="Matemática", icon="📐")
+c.page_link("pages/5_Laboratorio.py", label="Laboratorio", icon="🔬")
 d.page_link("pages/6_Evidencia.py", label="Evidencia", icon="📑")
 
 m1, m2, m3, m4 = st.columns(4)
