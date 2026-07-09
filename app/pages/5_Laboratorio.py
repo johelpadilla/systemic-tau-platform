@@ -14,7 +14,7 @@ import streamlit as st
 from components.hero import inject_css
 from stp.config.settings import AnalysisParams, DOMAIN_PRESETS
 from stp.core.pipeline import run_analysis
-from stp.data.generators import (
+from stp.data.synthetic_generators import (
     ar_noise,
     cardiac_like_rr,
     coupled_logistic,
