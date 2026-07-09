@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import logging
 import numpy as np
-from scipy.stats import kendalltau
 from numba import jit
 
 
