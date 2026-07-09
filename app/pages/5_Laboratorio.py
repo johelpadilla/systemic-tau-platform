@@ -14,7 +14,13 @@ import streamlit as st
 from components.hero import inject_css
 from stp.config.settings import AnalysisParams, DOMAIN_PRESETS
 from stp.core.pipeline import run_analysis
-from stp.data.generators import ar_noise, cardiac_like_rr, coupled_logistic
+from stp.data.generators import (
+    ar_noise,
+    cardiac_like_rr,
+    coupled_logistic,
+    simulate_reloj_extramental,
+    aedes_antisync_control,
+)
 from stp.reports.markdown_report import render_markdown_report
 from stp.visualization.series_plots import (
     plot_ews_comparison,
@@ -22,6 +28,26 @@ from stp.visualization.series_plots import (
     plot_series,
     plot_tau,
 )
+
+@st.cache_data(show_spinner=False)
+def generate_data(source: str, kind: str, T: int, seed: int, extra: dict) -> np.ndarray:
+    if source == "Cardio-like demo":
+        return cardiac_like_rr(T=T, event_at=int(T * 0.8), seed=seed)
+    elif kind == "Logísticos acoplados (switch)":
+        return coupled_logistic(T=T, coupling=0.18, switch_at=T // 2, seed=seed)
+    elif kind == "AR ruido":
+        return ar_noise(T=T, N=3, seed=seed)
+    elif kind == "Simulador Reloj Extramental (Feigenbaum)":
+        return simulate_reloj_extramental(T=T, r_control=extra.get("r", 3.8), seed=seed)
+    elif kind == "Controlador Antisincrónico (Mosquito)":
+        return aedes_antisync_control(T=T, fumigation_at=extra.get("fum_at", int(T*0.6)), seed=seed)
+    return np.zeros((T, 2))
+
+@st.cache_data(show_spinner=False)
+def cached_run_analysis(X_array: np.ndarray, params_json: str):
+    import json
+    p = AnalysisParams(**json.loads(params_json))
+    return run_analysis(X_array, p)
 
 st.set_page_config(page_title="Laboratorio | STP", page_icon="🌀", layout="wide")
 inject_css()
@@ -39,17 +65,27 @@ source = st.radio(
 
 X = None
 domain = "synthetic"
+extra_params = {}
+
 if source == "Sintético pedagógico":
-    kind = st.selectbox("Tipo", ["Logísticos acoplados (switch)", "AR ruido"])
+    kind = st.selectbox("Tipo", [
+        "Logísticos acoplados (switch)", 
+        "AR ruido",
+        "Simulador Reloj Extramental (Feigenbaum)",
+        "Controlador Antisincrónico (Mosquito)"
+    ])
     T = st.slider("Longitud T", 300, 3000, 800, 100)
-    if kind.startswith("Logísticos"):
-        X = coupled_logistic(T=T, coupling=0.18, switch_at=T // 2, seed=3)
-        domain = "synthetic"
-    else:
-        X = ar_noise(T=T, N=3, seed=4)
+    
+    if kind == "Simulador Reloj Extramental (Feigenbaum)":
+        extra_params["r"] = st.slider("Constante r (Feigenbaum proxy)", 3.0, 4.0, 3.8, 0.05)
+    elif kind == "Controlador Antisincrónico (Mosquito)":
+        extra_params["fum_at"] = st.slider("Fumigación en t=", int(T*0.2), int(T*0.8), int(T*0.6), 50)
+        
+    X = generate_data(source, kind, T, 42, extra_params)
+    domain = "synthetic"
 elif source == "Cardio-like demo":
     T = st.slider("Latidos (aprox.)", 1000, 8000, 4000, 500)
-    X = cardiac_like_rr(T=T, event_at=int(T * 0.8), seed=5)
+    X = generate_data(source, "", T, 5, {})
     domain = "cardiology"
 else:
     up = st.file_uploader("CSV numérico (columnas = variables)", type=["csv"])
@@ -99,9 +135,12 @@ elif st.button("▶ Ejecutar análisis completo", type="primary"):
         st.write("EWS clásicos…")
         if n_surr:
             st.write("Surrogates phase-shuffle…")
-        result = run_analysis(X, params)
+        
+        # Call cached function
+        result = cached_run_analysis(X, params.model_dump_json())
+        
         st.write("Hash de reproducibilidad…")
-        status.update(label="Análisis completo", state="complete")
+        status.update(label="Análisis completo (desde caché si aplica)", state="complete")
 
     st.session_state["lab_result"] = result
     st.session_state["lab_domain"] = domain

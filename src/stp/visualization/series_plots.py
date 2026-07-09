@@ -22,13 +22,19 @@ def plot_series(X: np.ndarray, title: str = "Series multivariada") -> go.Figure:
 
 
 def plot_tau(result: AnalysisResult) -> go.Figure:
-    return line_fig(
+    fig = line_fig(
         result.tau_centers,
         result.tau_s,
         "τ_s",
         "Systemic Tau (ventana deslizante)",
         "τ_s",
     )
+    # Feigenbaum Topological Zones
+    fig.add_hrect(y0=0.5, y1=1.0, fillcolor="#2E7D32", opacity=0.15, line_width=0, layer="below", annotation_text="Sincronización (Φ₁)")
+    fig.add_hrect(y0=-0.41, y1=0.41, fillcolor="#C62828", opacity=0.15, line_width=0, layer="below", annotation_text="Caos / Disonancia")
+    fig.add_hrect(y0=-1.0, y1=-0.41, fillcolor="#6A1B9A", opacity=0.15, line_width=0, layer="below", annotation_text="Antisincronización")
+    fig.update_yaxes(range=[-1.05, 1.05])
+    return fig
 
 
 def plot_recd_panel(result: AnalysisResult) -> go.Figure:
