@@ -1,8 +1,15 @@
 # Systemic Tau Platform
 
-**Paradigma Tau Sistémico: De la Teoría a la Práctica**
+*(🇬🇧 English | 🇪🇸 Español | 🇫🇷 Français)*
 
-Plataforma web educativa y de investigación (Streamlit) para el paradigma **Tau Sistémica + RECD** (Reloj Extramental Discreto): fundamentos, matemática, dominios, laboratorio interactivo, ruta de aprendizaje y evidencia científica.
+### 🇬🇧 English
+Educational and research web platform ([Streamlit](https://streamlit.io)) for teaching, exploring, and interactive experimentation with the **Systemic Tau** paradigm and the **Discrete Extramental Clock (RECD)** model. Includes fundamentals, mathematics, domains, interactive laboratory, learning path, and scientific evidence.
+
+### 🇪🇸 Español
+Plataforma web educativa y de investigación ([Streamlit](https://streamlit.io)) para el paradigma **Tau Sistémica + RECD** (Reloj Extramental Discreto): fundamentos, matemática, dominios, laboratorio interactivo, ruta de aprendizaje y evidencia científica.
+
+### 🇫🇷 Français
+Plateforme web éducative et de recherche ([Streamlit](https://streamlit.io)) pour l'enseignement, l'exploration et l'expérimentation interactive avec le paradigme **Tau Systémique** et le modèle de **l'Horloge Extramentale Discrète (RECD)**. Comprend les fondamentaux, les mathématiques, les domaines, le laboratoire interactif et les preuves scientifiques.
 
 > Producto con calidad SaaS educativa premium — no un prototipo de notebook.
 
