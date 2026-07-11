@@ -1,37 +1,17 @@
-# Domaine : Neurosciences — Crises d'Épilepsie (CHB-MIT)
+# Domaine Scientifique : Neurosciences Computationnelles et Dynamique Cérébrale
 
-## 1. Contexte
+## 1. Contexte Scientifique et Défi Clinique
+Le cerveau humain opère dans un état de criticité auto-organisée. Les transitions pathologiques abruptes, telles que les **crises d'épilepsie**, nécessitent l'identification précise des états *pré-ictaux* dans les signaux électroencéphalographiques (EEG). Cependant, la détection précoce est lourdement entravée par la dimensionnalité écrasante et le bruit de fond inhérent à l'activité corticale.
 
-Les **crises d'épilepsie** sont des transitions de régime dans la dynamique corticale. L'EEG multicanal est le prototype d'un système où :
+## 2. Le Comportement de Tau Systémique
+Au sein des réseaux neuronaux, **Tau Systémique (τ_s)** quantifie la topologie de la connectivité fonctionnelle dans le domaine temporel. Plutôt que de mesurer l'amplitude des signaux, il évalue la **cohérence ordinale** entre plusieurs canaux EEG.
 
-- il y a de nombreuses variables (canaux/bandes),
-- l'événement est annoté,
-- l'intérêt clinique porte sur l'état **pré-ictal**.
+À l'approche d'une crise d'épilepsie, la neurodynamique subit une transition vers l'hyper-synchronisation. τ_s capture ce phénomène en observant comment la diversité des micro-états relationnels s'effondre drastiquement. Le cadre **RECD** révèle que les structures synergiques d'ordre supérieur (mesurées par **excess3**) se dissolvent, forçant le système à converger vers un attracteur pathologique de basse dimension.
 
-CHB-MIT (PhysioNet) propose des enregistrements pédiatriques avec annotations de crises.
+## 3. Limites des Métriques Conventionnelles
+- **Analyse Spectrale (FFT) :** Identifie les décalages dans les bandes de fréquences mais reste incapable de mesurer les interactions non linéaires et n-dimensionnelles entre les aires corticales.
+- **Exposant de Lyapunov :** D'un coût de calcul prohibitif pour la surveillance clinique en temps réel et hautement sensible au bruit instrumental.
+- **Tau Systémique (τ_s) :** En utilisant la permutation symbolique (Bandt-Pompe), il ignore fondamentalement le bruit d'amplitude et filtre les artefacts musculaires, isolant exclusivement l'architecture causale de la transition ictogène imminente.
 
-## 2. Limites des EWS Classiques
-
-- Un canal unique peut ne pas montrer de CSD (ralentissement critique) clair.
-- Les artefacts et le sommeil faussent la var/l'AR1.
-- La transition est **spatialement distribuée** : la signature réside dans la **synchronisation des modèles**, et non seulement dans la puissance d'un canal.
-
-## 3. Apport Tau + RECD
-
-- Multivarié : puissances de bande ou enveloppes de 4 à 8 canaux/bandes.
-- Φ₁–Φ₃ capturent la **co-ordination symbolique** pré-ictale.
-- excess3 comme proxy de la configuration de réseau irréductible.
-- Comparaison avec la TE classique et les indices de synchronisation standards (PLV, etc.) en mode complet (Full).
-
-## 4. Jeu de Données
-
-- Extrait synthétique ou traité de type pré-ictal (le CHB-MIT brut n'est pas redistribué dans son intégralité).
-- Scripts de téléchargement sous les conditions d'utilisation (ToS) de PhysioNet.
-
-## 5. Maturité
-
-**Moyenne-Haute** dans la plateforme v1 : pipeline prêt ; preuves empiriques en cours de consolidation (moins mature que le CCTP).
-
-## 6. Références
-
-- CHB-MIT PhysioNet ; littérature sur la prédiction des crises ; cadre ordinal du paradigme.
+## 4. Pertinence Clinique
+Le paradigme de Tau Systémique fournit à la neurophysiologie un instrument mathématique rigoureux pour tracer "l'empreinte digitale" topologique du cortex cérébral, ouvrant la voie au développement de systèmes de neuromodulation en boucle fermée hautement anticipatifs.

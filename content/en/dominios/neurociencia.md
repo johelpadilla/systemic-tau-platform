@@ -1,37 +1,17 @@
-# Domain: Neuroscience — Epileptic Seizures (CHB-MIT)
+# Scientific Domain: Computational Neuroscience and Brain Dynamics
 
-## 1. Context
+## 1. Scientific Context and Clinical Challenge
+The human brain operates in a state of self-organized criticality. Abrupt pathological transitions, such as **epileptic seizures**, necessitate the precise identification of *pre-ictal* states in electroencephalographic (EEG) signals. However, early detection is heavily impeded by the overwhelming dimensionality and inherent background noise of cortical activity.
 
-**Epileptic seizures** are regime transitions in cortical dynamics. Multichannel EEG is the prototype of a system where:
+## 2. The Behavior of Systemic Tau
+Within neural networks, **Systemic Tau (τ_s)** quantifies the topology of functional connectivity in the temporal domain. Rather than measuring signal amplitudes, it evaluates the **ordinal coherence** across multiple EEG channels.
 
-- there are many variables (channels/bands),
-- the event is annotated,
-- the clinical interest is the **pre-ictal** state.
+As the brain approaches an epileptic crisis, neurodynamics undergo a transition toward hyper-synchronization. τ_s captures this phenomenon by observing how the diversity of relational microstates collapses drastically. The **RECD** framework reveals that high-order synergistic structures (measured by **excess3**) dissolve, forcing the system to converge into a low-dimensional pathological attractor.
 
-CHB-MIT (PhysioNet) offers pediatric records with seizure annotations.
+## 3. Limitations of Conventional Metrics
+- **Spectral Analysis (FFT):** Identifies shifts in frequency bands but remains incapable of measuring non-linear, n-dimensional interactions across cortical areas.
+- **Lyapunov Exponent:** Computationally prohibitive for real-time clinical monitoring and highly susceptible to instrumental noise.
+- **Systemic Tau (τ_s):** By utilizing symbolic permutation (Bandt-Pompe), it fundamentally ignores amplitude noise and filters muscular artifacts, exclusively isolating the causal architecture of the impending ictogenic transition.
 
-## 2. Limits of Classical EWS
-
-- A single channel may not show clear CSD.
-- Artifacts and sleep confound var/AR1.
-- The transition is **spatially distributed**: the signature lies in the **synchronization of patterns**, not just in the power of one channel.
-
-## 3. Tau + RECD Contribution
-
-- Multivariate: bandpowers or envelopes of 4–8 channels/bands.
-- Φ₁–Φ₃ capture pre-ictal **symbolic co-ordination**.
-- excess3 as a proxy for irreducible network configuration.
-- Comparison with classical TE and standard synchronization indices (PLV, etc.) in Full mode.
-
-## 4. Dataset
-
-- Pre-ictal-like synthetic or processed extract (the raw CHB-MIT is not redistributed in full).
-- Download scripts under PhysioNet ToS.
-
-## 5. Maturity
-
-**Medium-High** in platform v1: pipeline ready; empirical evidence undergoing consolidation (less mature than CCTP).
-
-## 6. References
-
-- CHB-MIT PhysioNet; seizure prediction literature; the paradigm's ordinal framework.
+## 4. Clinical Relevance
+The Systemic Tau paradigm provides neurophysiology with a rigorous mathematical instrument to trace the topological "fingerprint" of the cerebral cortex, paving the way for the development of highly anticipatory, closed-loop neuromodulation systems.

@@ -1,33 +1,17 @@
-# Dominio: Ecología de ecosistemas — eutrofización de lagos
+# Dominio Científico: Ecología de Sistemas y Dinámica de Poblaciones
 
-## 1. Contexto
+## 1. Contexto Científico y Desafío Ecológico
+Los ecosistemas naturales experimentan **cambios de régimen catastróficos** (e.g., eutrofización de lagos, desertificación, colapso de pesquerías) desencadenados por estresores estocásticos e interacciones tróficas no lineales. Predecir estos colapsos antes de que el ecosistema cruce un punto de no retorno (histéresis) es fundamental para la conservación ambiental.
 
-Lagos poco profundos pueden saltar de un estado **claro oligotrófico** a uno **turbio eutrófico** (Scheffer et al.). Series de clorofila-a, nutrientes y oxígeno disuelto capturan esa transición en escalas mensuales/anuales (p.ej. NTL LTER, Lake Mendota).
+## 2. El Comportamiento de Tau Sistémica
+En la ecología matemática, **Tau Sistémica (τ_s)** actúa como un sensor de la resiliencia estructural. No analiza la densidad poblacional aislada, sino la red de **interdependencias ordinales** entre especies (ej. fito/zooplancton) y factores abióticos (ej. temperatura, fósforo).
 
-## 2. EWS clásicas: origen y límites
+Antes de un colapso ecológico, los ecosistemas sufren un declive en su "conectividad sinérgica". τ_s percibe cómo los microestados de la red trófica pierden su heterogeneidad estructural. El parámetro **excess3** documenta matemáticamente la erosión de la resiliencia del ecosistema, señalando el momento en que las interacciones estabilizadoras son superadas por retroalimentaciones positivas desestabilizadoras.
 
-Este dominio es el **hogar histórico** de las EWS de CSD. Funcionan en muchos modelos y en algunos lagos. Fallan o se debaten cuando:
+## 3. Limitaciones de las Métricas Convencionales
+- **Varianza y Autocorrelación Espacial (EWS clásicos):** A menudo generan falsos positivos inducidos por el ruido ambiental (clima) y dependen críticamente del modelado *Critical Slowing Down* (CSD), el cual no siempre aplica en redes ecológicas complejas.
+- **Biomasa Agregada:** Una métrica rezagada que solo muestra alteración una vez que el colapso trófico es irreversible.
+- **Tau Sistémica (τ_s):** Al ser invariante a transformaciones monótonas (inmune a ciertas fluctuaciones abióticas), aísla exclusivamente la desintegración de la lógica relacional del ecosistema.
 
-- el forzamiento es estacional fuerte,
-- hay gestión humana (nutrientes),
-- la observación es multivariada y la transición es de **red trófica**, no de un solo indicador.
-
-## 3. Valor de τ_s + RECD
-
-- Mismo lenguaje relacional que en fisiología: el lago “coordina” nutrientes–Chl-a–DO.
-- RECD ofrece un reloj de **eventos de reorganización ecológica**.
-- Permite **transferencia metodológica** corazón ↔ lago (tesis unificadora de la plataforma).
-
-## 4. Dataset sample
-
-- Series mensuales Mendota-like: chla, tp, do, temp (z-scored).
-- Anotación de régimen si hay umbral histórico de Chl-a.
-
-## 5. Madurez
-
-**Media** — pedagogía fuerte; profundidad empírica a expandir en v1.x.
-
-## 6. Referencias
-
-- Scheffer, *Critical Transitions in Nature and Society*.
-- NTL LTER data publications.
+## 4. Impacto en la Conservación
+La integración del marco RECD permite a los ecólogos computacionales establecer umbrales de intervención temprana (early-warning signals) altamente calibrados, protegiendo ecosistemas frágiles con fundamentos topológicos rigurosos.
