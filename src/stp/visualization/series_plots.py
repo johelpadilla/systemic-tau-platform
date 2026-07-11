@@ -79,3 +79,48 @@ def plot_ews_comparison(result: AnalysisResult) -> go.Figure:
         yaxis_title="z-score en el tramo",
     )
     return fig
+
+
+def plot_manifold_3d(result: AnalysisResult) -> go.Figure:
+    apply_theme()
+    X = result.X_processed
+    if len(X) < 3 or X.ndim != 2:
+        return go.Figure().update_layout(title="Datos insuficientes para 3D")
+    
+    # Tomar la primera dimensión de la serie temporal procesada
+    series = X[:, 0]
+    delay = result.params.delay
+    
+    # Crear embedding 3D: x(t), x(t+delay), x(t+2*delay)
+    max_idx = len(series) - 2 * delay
+    if max_idx <= 0:
+        return go.Figure().update_layout(title="Serie demasiado corta para este delay en 3D")
+        
+    x_emb = series[:max_idx]
+    y_emb = series[delay:max_idx + delay]
+    z_emb = series[2 * delay:max_idx + 2 * delay]
+    
+    fig = go.Figure(data=[go.Scatter3d(
+        x=x_emb,
+        y=y_emb,
+        z=z_emb,
+        mode='lines',
+        line=dict(
+            width=2,
+            color=np.arange(max_idx),
+            colorscale='Viridis',
+            showscale=True,
+            colorbar=dict(title="Tiempo (t)")
+        )
+    )])
+    
+    fig.update_layout(
+        title="Explorador de Variedad Topológica 3D (Takens Embedding)",
+        height=700,
+        scene=dict(
+            xaxis_title="x(t)",
+            yaxis_title=f"x(t+{delay})",
+            zaxis_title=f"x(t+{2*delay})",
+        )
+    )
+    return fig

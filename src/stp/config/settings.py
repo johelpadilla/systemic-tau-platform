@@ -26,17 +26,18 @@ class ThemeColors(BaseModel):
 class AnalysisParams(BaseModel):
     window: int = Field(101, ge=5)
     stride: int = Field(5, ge=1)
-    m: int = Field(3, ge=2, le=7)
+    m: int = Field(default=3, description="Embedding dimension")
     delay: int = Field(1, ge=1)
     d_persist: int = Field(4, ge=2)
-    theta3: float = Field(0.08, ge=0.0)
-    n_surrogates: int = Field(8, ge=0)
-    mode: Literal["fast", "full"] = "fast"
-    seed: int = 42
+    theta3: float = Field(default=0.05, description="Threshold for excessive permutations")
+    n_surrogates: int = Field(default=0, description="Number of surrogates to generate")
+    mode: Literal["fast", "full"] = Field(default="fast", description="Math calculation depth")
+    seed: int = Field(default=42, description="Random seed")
     zscore: bool = True
-    include_ews: bool = True
+    include_ews: bool = Field(default=True, description="Whether to compute basic EWS")
     include_tda: bool = False
     include_memory: bool = False
+    auto_tune: bool = Field(default=False, description="Whether to auto-tune window and stride")
 
     def for_mode(self) -> "AnalysisParams":
         """Apply Fast/Full defaults without mutating caller unexpectedly."""

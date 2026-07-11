@@ -22,11 +22,13 @@ from stp.data.synthetic_generators import (
     aedes_antisync_control,
 )
 from stp.reports.markdown_report import render_markdown_report
+from stp.reports.pdf_report import generate_pdf_report
 from stp.visualization.series_plots import (
     plot_ews_comparison,
     plot_recd_panel,
     plot_series,
     plot_tau,
+    plot_manifold_3d,
 )
 from locales import t
 
@@ -60,7 +62,7 @@ st.caption(t("lab_caption"))
 st.header(t("lab_s1"))
 source = st.radio(
     t("lab_origin"),
-    [t("lab_o1"), t("lab_o2"), t("lab_o3")],
+    [t("lab_o1"), t("lab_o2"), t("lab_o3"), "Datos Reales (PhysioNet)"],
     horizontal=True,
 )
 
@@ -88,6 +90,15 @@ elif source == t("lab_o3"):
     T = st.slider(t("lab_beats"), 1000, 8000, 4000, 500)
     X = generate_data("Cardio-like demo", "", T, 5, {})
     domain = "cardiology"
+elif source == "Datos Reales (PhysioNet)":
+    dataset = st.selectbox("Seleccione el dataset:", ["Normal Sinus Rhythm (NSR)", "Congestive Heart Failure (CHF)"])
+    if dataset == "Normal Sinus Rhythm (NSR)":
+        df = pd.read_csv('data/physionet_samples/nsr_16265.csv')
+    else:
+        df = pd.read_csv('data/physionet_samples/chf_chf01.csv')
+    T_real = st.slider(t("lab_beats"), 500, len(df), 2000, 500)
+    X = df.head(T_real).to_numpy(dtype=float)
+    domain = "cardiology"
 else:
     up = st.file_uploader(t("lab_up"), type=["csv"])
     if up is not None:
@@ -106,11 +117,22 @@ if X is not None:
 st.header(t("lab_s2"))
 preset = DOMAIN_PRESETS.get(domain, DOMAIN_PRESETS["synthetic"])
 mode = st.radio(t("math_mode"), ["fast", "full"], horizontal=True)
+
+auto_tune = st.toggle("Auto-sintonizar parámetros (Auto-Tau)", value=False)
+
 c1, c2, c3 = st.columns(3)
-window = c1.number_input(t("lab_w"), 5, 301, int(preset["window"]), 2)
-stride = c2.number_input(t("lab_stride"), 1, 50, int(preset["stride"]))
+if auto_tune:
+    c1.info("El tamaño de ventana se calculará automáticamente.")
+    c2.info("El stride (retraso) se calculará mediante Información Mutua/Autocorrelación.")
+    window = int(preset["window"])
+    stride = int(preset["stride"])
+    m = 3
+else:
+    window = c1.number_input(t("lab_w"), 5, 301, int(preset["window"]), 2)
+    stride = c2.number_input(t("lab_stride"), 1, 50, int(preset["stride"]))
+    m = st.select_slider(t("lab_m"), options=[2, 3, 4, 5], value=int(preset.get("m", 3)))
+
 theta3 = c3.number_input(t("lab_t3"), 0.01, 0.5, float(preset["theta3"]), 0.01)
-m = st.select_slider(t("lab_m"), options=[2, 3, 4, 5], value=int(preset.get("m", 3)))
 n_surr = st.slider(t("lab_nsurr"), 0, 50, 8 if mode == "fast" else 20)
 seed = st.number_input(t("lab_seed"), 0, 10_000, 42)
 
@@ -128,6 +150,7 @@ elif st.button(t("lab_run"), type="primary"):
         mode=mode,
         seed=int(seed),
         include_ews=True,
+        auto_tune=auto_tune,
     )
     with st.status(t("lab_status"), expanded=True) as status:
         st.write(t("lab_st1"))
@@ -158,7 +181,7 @@ if result is not None:
     pval = result.surrogate_stats.get("tau_s", {}).get("p_value", None)
     k4.metric(t("lab_psurr"), f"{pval:.3f}" if pval is not None else "—")
 
-    t1, t2, t3, t4 = st.tabs([t("lab_t1"), t("lab_t2"), t("lab_t3"), t("lab_t4")])
+    t1, t2, t3, t4, t5 = st.tabs([t("lab_t1"), t("lab_t2"), t("lab_t3"), t("lab_t4"), "Manifold 3D"])
     with t1:
         st.plotly_chart(plot_tau(result), use_container_width=True)
     with t2:
@@ -173,5 +196,16 @@ if result is not None:
             file_name="stp_report.md",
             mime="text/markdown",
         )
+        
+        pdf_bytes = generate_pdf_report(result, domain=st.session_state.get("lab_domain", domain))
+        st.download_button(
+            "Exportar Reporte Científico (PDF)",
+            data=pdf_bytes,
+            file_name="stp_scientific_report.pdf",
+            mime="application/pdf",
+        )
+        
         st.code(result.repro_hash, language="text")
         st.json(result.metrics)
+    with t5:
+        st.plotly_chart(plot_manifold_3d(result), use_container_width=True)

@@ -14,6 +14,7 @@ from stp.core.recd_levels import compute_recd_from_conjunctions
 from stp.core.reproducibility import repro_hash
 from stp.core.surrogates import surrogate_delta_metric
 from stp.core.tau_s import compute_tau_s
+from stp.core.auto_tau import auto_tune_params
 
 
 @dataclass
@@ -30,6 +31,7 @@ class AnalysisResult:
     metrics: dict[str, Any]
     params: AnalysisParams
     repro_hash: str
+    X_processed: np.ndarray = field(default_factory=lambda: np.array([]))
     lib_versions: dict[str, str] = field(default_factory=dict)
 
 
@@ -52,6 +54,13 @@ def _prepare_X(X: np.ndarray, zscore: bool) -> np.ndarray:
 def run_analysis(X: np.ndarray, params: AnalysisParams | None = None) -> AnalysisResult:
     params = (params or AnalysisParams()).for_mode()
     Xp = _prepare_X(X, zscore=params.zscore)
+
+    if params.auto_tune:
+        auto_vals = auto_tune_params(Xp)
+        params.stride = auto_vals["stride"]
+        params.m = auto_vals["m"]
+        params.window = auto_vals["window"]
+        logging.info(f"Auto-Tuned params: {auto_vals}")
 
     tau_s, tau_centers = compute_tau_s(
         Xp, window=params.window, stride=params.stride, zscore=False
@@ -110,5 +119,6 @@ def run_analysis(X: np.ndarray, params: AnalysisParams | None = None) -> Analysi
         metrics=metrics,
         params=params,
         repro_hash=h,
+        X_processed=Xp,
         lib_versions={"stp": "1.0.0", "numpy": np.__version__},
     )

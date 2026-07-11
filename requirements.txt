@@ -22,5 +22,6 @@ statsmodels>=0.14
 # nested-recd>=0.1
 # ripser>=0.6
 # persim>=0.3
-# wfdb>=4.1
+wfdb>=4.1
+fpdf2>=2.7
 # streamlit-aggrid>=0.3
