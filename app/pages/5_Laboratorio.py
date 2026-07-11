@@ -62,7 +62,7 @@ st.caption(t("lab_caption"))
 st.header(t("lab_s1"))
 source = st.radio(
     t("lab_origin"),
-    [t("lab_o1"), t("lab_o2"), t("lab_o3"), "Datos Reales (PhysioNet)"],
+    [t("lab_o1"), t("lab_o2"), t("lab_o3"), "Datos Reales"],
     horizontal=True,
 )
 
@@ -90,15 +90,44 @@ elif source == t("lab_o3"):
     T = st.slider(t("lab_beats"), 1000, 8000, 4000, 500)
     X = generate_data("Cardio-like demo", "", T, 5, {})
     domain = "cardiology"
-elif source == "Datos Reales (PhysioNet)":
-    dataset = st.selectbox("Seleccione el dataset:", ["Normal Sinus Rhythm (NSR)", "Congestive Heart Failure (CHF)"])
-    if dataset == "Normal Sinus Rhythm (NSR)":
-        df = pd.read_csv('data/physionet_samples/nsr_16265.csv')
+elif source == "Datos Reales":
+    dataset_category = st.selectbox("Dominio:", [
+        "Cardiología (PhysioNet)", 
+        "Neurociencia (EEG Simulado)", 
+        "Epidemiología (COVID-19)", 
+        "Ecología (Lince/Liebre)", 
+        "Finanzas (S&P 500)"
+    ])
+    
+    if dataset_category == "Cardiología (PhysioNet)":
+        dataset = st.selectbox("Seleccione el dataset:", ["Normal Sinus Rhythm (NSR)", "Congestive Heart Failure (CHF)"])
+        if dataset == "Normal Sinus Rhythm (NSR)":
+            df = pd.read_csv('data/physionet_samples/nsr_16265.csv')
+        else:
+            df = pd.read_csv('data/physionet_samples/chf_chf01.csv')
+        T_real = st.slider(t("lab_beats"), 500, len(df), 2000, 500)
+        X = df.head(T_real).to_numpy(dtype=float)
+        domain = "cardiology"
     else:
-        df = pd.read_csv('data/physionet_samples/chf_chf01.csv')
-    T_real = st.slider(t("lab_beats"), 500, len(df), 2000, 500)
-    X = df.head(T_real).to_numpy(dtype=float)
-    domain = "cardiology"
+        if dataset_category == "Neurociencia (EEG Simulado)":
+            df = pd.read_csv('data/domain_samples/neuro_simulated_preictal.csv')
+            X_df = df[['FP1-F7', 'FP2-F8', 'T3-T5']]
+            domain = "neuroscience"
+        elif dataset_category == "Epidemiología (COVID-19)":
+            df = pd.read_csv('data/domain_samples/epi_covid19_italy.csv')
+            X_df = df[['daily_cases']]
+            domain = "epidemiology"
+        elif dataset_category == "Ecología (Lince/Liebre)":
+            df = pd.read_csv('data/domain_samples/eco_hudson_bay_lynx.csv')
+            X_df = df[['lynx_trappings']]
+            domain = "ecology"
+        elif dataset_category == "Finanzas (S&P 500)":
+            df = pd.read_csv('data/domain_samples/finance_sp500_crash2008.csv')
+            X_df = df[['sp500_close']]
+            domain = "finance"
+            
+        T_real = st.slider("Ventana de observación", min(50, len(df)), len(df), len(df), 10)
+        X = X_df.head(T_real).to_numpy(dtype=float)
 else:
     up = st.file_uploader(t("lab_up"), type=["csv"])
     if up is not None:
